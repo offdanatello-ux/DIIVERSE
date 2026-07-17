@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лами Элина — DIIVERSE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="project-page">
+    <header class="project-header">
+        <a href="index.html#projects" class="project-back sound-hover">← НАЗАД</a>
+        <a href="index.html" class="project-logo sound-hover">DIIVERSE</a>
+
+        <button
+            class="sound-button sound-hover"
+            id="soundButton"
+            type="button"
+            aria-label="Включить или выключить звук"
+            aria-pressed="true"
+        >
+            ЗВУК: ВКЛ
+        </button>
+    </header>
+
+    <main>
+        <section class="project-hero">
+            <p class="project-kicker">001 // ИЗБРАННЫЙ ПРОЕКТ</p>
+            <h1>ЛАМИ<br>ЭЛИНА</h1>
+
+            <div class="project-hero__meta">
+                <p>ЛЕНДИНГ ДЛЯ СТУДИИ КРАСОТЫ</p>
+                <p>HTML / CSS / JAVASCRIPT</p>
+                <p>2026</p>
+            </div>
+        </section>
+
+        <section class="project-visual reveal">
+            <img src="image/lami-preview.jpg" alt="Превью сайта Лами Элина">
+        </section>
+
+        <section class="project-info reveal">
+            <div class="project-info__label">О ПРОЕКТЕ</div>
+
+            <div class="project-info__content">
+                <h2>Цифровой образ современного бренда в сфере красоты.</h2>
+                <p>
+                    Одностраничный сайт для студии красоты с акцентом на визуальную подачу,
+                    типографику и атмосферу премиального сервиса.
+                </p>
+            </div>
+        </section>
+
+        <section class="project-details reveal">
+            <div><span>РОЛЬ</span><p>Дизайн и разработка</p></div>
+            <div><span>ТЕХНОЛОГИИ</span><p>HTML, CSS, JavaScript</p></div>
+            <div><span>ГОД</span><p>2026</p></div>
+        </section>
+
+        <section class="project-footer reveal">
+            <a href="index.html#projects" class="sound-hover">← ВСЕ ПРОЕКТЫ</a>
+            <span>СЛЕДУЮЩИЙ ПРОЕКТ →</span>
+        </section>
+    </main>
+
+    <audio id="hoverSound" src="audio/hover.wav" preload="auto"></audio>
+    <audio id="clickSound" src="audio/click.wav" preload="auto"></audio>
+    <script src="project.js"></script>
+</body>
+</html>

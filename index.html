@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DIIVERSE — цифровая вселенная идей, интерфейсов и проектов Даниила.">
+    <title>DIIVERSE — цифровой архив проектов</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- СТАРТОВЫЙ ЭКРАН -->
+    <div class="preloader" id="preloader">
+
+        <div class="hack-layer" id="hackLayer" aria-hidden="true">
+            <div class="hack-noise" id="hackNoise"></div>
+
+            <div class="hack-tears" id="hackTears">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="hack-blocks" id="hackBlocks">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+
+            <div class="hack-code" id="hackCode">
+                <span>0X4F // СОЕДИНЕНИЕ ПРЕРВАНО</span>
+                <span>УЗЕЛ_07 // НЕТ ОТВЕТА</span>
+                <span>ПАМЯТЬ // ПОВРЕЖДЕНА</span>
+                <span>КОРНЕВОЙ ДОСТУП // ЗАПРОШЕН</span>
+            </div>
+        </div>
+
+        <div class="hack-flash" id="hackFlash" aria-hidden="true"></div>
+
+        <div class="preloader__content">
+            <p class="system-text">ДОСТУП К СИСТЕМЕ</p>
+
+            <h1 id="hackTitle">DIIVERSE</h1>
+
+            <p class="preloader__description">
+                Для полного погружения рекомендуется включить звук
+            </p>
+
+            <button class="enter-button sound-hover" id="enterButton" type="button">
+                НАЧАТЬ ПОГРУЖЕНИЕ
+            </button>
+
+            <div class="boot-sequence" id="bootSequence">
+                <p class="boot-sequence__line" id="bootLine" aria-live="polite">
+                    СИСТЕМА ОЖИДАЕТ
+                </p>
+
+                <div class="boot-progress">
+                    <div class="boot-progress__bar" id="bootProgressBar"></div>
+                </div>
+
+                <div class="boot-progress__info">
+                    <span id="bootProgressText">0%</span>
+                    <span>ЦИФРОВОЙ АРХИВ ПРОЕКТОВ</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="preloader__bottom">
+            <span>СИСТЕМА: ГОТОВА</span>
+            <span>ЗВУК: ДОСТУПЕН</span>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ САЙТ -->
+    <main class="site-content" id="siteContent">
+
+        <!-- 01 // HERO -->
+        <section class="hero" id="top">
+            <header class="header">
+                <a href="#top" class="logo sound-hover">DIIVERSE</a>
+
+                <nav class="navigation" aria-label="Основная навигация">
+                    <a
+                        href="services.html"
+                        class="sound-hover nav-transition-link"
+                        data-transition-label="УСЛУГИ"
+                    >Услуги</a>
+
+                    <a
+                        href="#projects"
+                        class="sound-hover nav-transition-link"
+                        data-transition-label="ПРОЕКТЫ"
+                    >Проекты</a>
+
+                    <a
+                        href="about.html"
+                        class="sound-hover nav-transition-link"
+                        data-transition-label="ОБО МНЕ"
+                    >Обо мне</a>
+
+                    <a
+                        href="about.html#contact"
+                        class="sound-hover nav-transition-link"
+                        data-transition-label="КОНТАКТЫ"
+                    >Контакты</a>
+                </nav>
+
+                <button
+                    class="sound-button sound-hover"
+                    id="soundButton"
+                    type="button"
+                    aria-label="Включить или выключить звук"
+                    aria-pressed="true"
+                >
+                    ЗВУК: ВКЛ
+                </button>
+            </header>
+
+            <div class="hero__content">
+                <p class="hero__code">ЦИФРОВОЙ АРХИВ ПРОЕКТОВ // 2026</p>
+
+                <h2 id="heroTitle" aria-label="ЦИФРОВОЙ МИР НАЧИНАЕТСЯ ЗДЕСЬ">
+                    <span class="hero-title-line" data-text="ЦИФРОВОЙ МИР">ЦИФРОВОЙ МИР</span><br>
+                    <span class="hero-title-line" data-text="НАЧИНАЕТСЯ ЗДЕСЬ">НАЧИНАЕТСЯ ЗДЕСЬ</span>
+                </h2>
+
+                <p class="hero__description">
+                    Цифровой архив проектов, объединяющий дизайн, анимацию, звук и разработку.
+                </p>
+
+                <a href="#projects" class="explore-button sound-hover">
+                    СМОТРЕТЬ ПРОЕКТЫ
+                    <span aria-hidden="true">↘</span>
+                </a>
+            </div>
+
+            <div class="hero__bottom">
+                <span>АЛМАТЫ // КАЗАХСТАН</span>
+                <span>ЛИСТАЙТЕ НИЖЕ</span>
+            </div>
+        </section>
+
+
+        <!-- БОЛЬШАЯ ИНФОРМАЦИОННАЯ ПАНЕЛЬ -->
+        <section class="system-panel system-panel--feature" aria-label="Краткая информация" data-type-section>
+            <div class="system-panel__head">
+                <p class="system-panel__eyebrow" data-type-scroll>
+                    ТЕКУЩИЙ СТАТУС // 2026
+                </p>
+
+                <span class="system-panel__signal" data-type-scroll>
+                    <i aria-hidden="true"></i>
+                    СВЯЗЬ АКТИВНА
+                </span>
+            </div>
+
+            <div class="system-panel__main">
+                <span class="system-panel__key" data-type-scroll>СТАТУС</span>
+
+                <h2
+    class="system-panel__headline"
+    data-type-scroll
+    data-type-sound="true"
+>
+    ОТКРЫТ ДЛЯ<br>
+    НОВЫХ ПРОЕКТОВ
+</h2>
+            </div>
+
+            <div class="system-panel__details">
+                <div class="system-panel__detail" data-type-scroll>
+                    <span>НАПРАВЛЕНИЕ</span>
+                    <strong>ЛЕНДИНГИ И САЙТЫ-ПОРТФОЛИО</strong>
+                </div>
+
+                <div class="system-panel__detail" data-type-scroll>
+                    <span>ИНСТРУМЕНТЫ</span>
+                    <strong>HTML · CSS · JAVASCRIPT</strong>
+                </div>
+
+                <div class="system-panel__detail" data-type-scroll>
+                    <span>ЛОКАЦИЯ</span>
+                    <strong>АЛМАТЫ, КАЗАХСТАН</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 // МАНИФЕСТ -->
+        <section class="manifesto" id="manifesto" data-type-section>
+            <div class="manifesto__top">
+                <p class="manifesto__label" data-type-scroll>02 // МАНИФЕСТ</p>
+                <span class="manifesto__status" data-type-scroll>ТВОРЧЕСКИЙ ПРОТОКОЛ</span>
+            </div>
+
+            <div class="manifesto__content">
+                <h2 data-type-scroll data-type-sound="true">КАЖДЫЙ ПРОЕКТ<br>ЭТО ОТДЕЛЬНАЯ<br><span class="manifesto-accent">ВСЕЛЕННАЯ.</span></h2>
+
+                <div class="manifesto__text">
+                    <p data-type-scroll data-type-sound="true">
+                        Я создаю не просто страницы. Каждый проект получает собственный характер, ритм, движение и атмосферу.
+                    </p>
+
+                    <p class="manifesto__code" data-type-scroll>
+                        ДИЗАЙН // РАЗРАБОТКА // АНИМАЦИЯ // ЗВУК
+                    </p>
+                </div>
+            </div>
+
+            <div class="manifesto__bottom">
+                <span data-type-scroll>СИСТЕМА DIIVERSE</span>
+                <span data-type-scroll>ЛИСТАЙТЕ К БАЗЕ ПРОЕКТОВ ↓</span>
+            </div>
+        </section>
+
+        <!-- 03 // ПРОЕКТЫ -->
+        <section class="verses" id="projects" data-type-section>
+            <div class="verses__header">
+                <p class="verses__label" data-type-scroll>03 // ИЗБРАННЫЕ ПРОЕКТЫ</p>
+                <span data-type-scroll>БАЗА ПРОЕКТОВ // 03 ФАЙЛА</span>
+            </div>
+
+            <div class="verses__layout">
+                <div class="verses__list">
+
+                    <a
+                        href="project-lami.html"
+                        class="verse-row sound-hover is-active"
+                        data-image="image/lami-preview.jpg"
+                        data-code="ПРОЕКТ_001"
+                        data-state="БАЗА ОТКРЫТА"
+                    >
+                        <span class="verse-row__number" data-type-scroll>001</span>
+
+                        <div class="verse-row__title">
+                            <h2 data-type-scroll data-type-sound="true">ЛАМИ ЭЛИНА</h2>
+                            <p data-type-scroll>СТУДИЯ КРАСОТЫ // ЛЕНДИНГ</p>
+                        </div>
+
+                        <span class="verse-row__status" data-type-scroll>ОТКРЫТЬ ↗</span>
+                    </a>
+
+                    <div
+                        class="verse-row verse-row--locked"
+                        data-image=""
+                        data-code="ПРОЕКТ_002"
+                        data-state="БАЗА ЗАКРЫТА"
+                        tabindex="0"
+                    >
+                        <span class="verse-row__number" data-type-scroll>002</span>
+
+                        <div class="verse-row__title">
+                            <h2 data-type-scroll data-type-sound="true">АРХИТЕКТУРНАЯ СТУДИЯ</h2>
+                            <p data-type-scroll>АРХИТЕКТУРА // СКОРО</p>
+                        </div>
+
+                        <span class="verse-row__status" data-type-scroll>ЗАКРЫТО</span>
+                    </div>
+
+                    <div
+                        class="verse-row verse-row--locked"
+                        data-image=""
+                        data-code="ПРОЕКТ_003"
+                        data-state="БАЗА ЗАКРЫТА"
+                        tabindex="0"
+                    >
+                        <span class="verse-row__number" data-type-scroll>003</span>
+
+                        <div class="verse-row__title">
+                            <h2 data-type-scroll data-type-sound="true">ОБЖАРЩИКИ КОФЕ</h2>
+                            <p data-type-scroll>БРЕНДИНГ // СКОРО</p>
+                        </div>
+
+                        <span class="verse-row__status" data-type-scroll>ЗАКРЫТО</span>
+                    </div>
+                </div>
+
+                <aside class="verse-preview" id="versePreview">
+                    <img
+                        src="image/lami-preview.jpg"
+                        alt="Превью проекта Лами Элина"
+                        id="versePreviewImage"
+                    >
+
+                    <div class="verse-preview__empty" id="versePreviewEmpty">
+                        БАЗА<br>ЗАКРЫТА
+                    </div>
+
+                    <div class="verse-preview__overlay">
+                        <span id="versePreviewCode">ПРОЕКТ_001</span>
+                        <span id="versePreviewState">БАЗА ОТКРЫТА</span>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="verses__footer">
+                <span data-type-scroll>DIIVERSE // ЦИФРОВОЙ АРХИВ ПРОЕКТОВ</span>
+                <span data-type-scroll>ПОСЛЕДНЕЕ ОБНОВЛЕНИЕ // 2026</span>
+            </div>
+        </section>
+    </main>
+
+
+    <!-- ПЕРЕХОД МЕЖДУ РАЗДЕЛАМИ -->
+    <div
+        class="page-transition"
+        id="pageTransition"
+        aria-hidden="true"
+    >
+        <div class="page-transition__content">
+            <span class="page-transition__code">DIIVERSE // ПЕРЕХОД</span>
+            <div
+                class="page-transition__title"
+                id="pageTransitionTitle"
+                aria-live="polite"
+            ></div>
+            <span class="page-transition__status">ЗАГРУЗКА РАЗДЕЛА...</span>
+        </div>
+    </div>
+
+    <!-- ЗВУКИ -->
+    <audio id="glitchSound" src="audio/glitch.mp3" preload="auto"></audio>
+    <audio id="errorSound" src="audio/error.wav" preload="auto"></audio>
+    <audio id="powerSound" src="audio/power-on.wav" preload="auto"></audio>
+    <audio id="hoverSound" src="audio/hover.wav" preload="auto"></audio>
+    <audio id="clickSound" src="audio/click.wav" preload="auto"></audio>
+    <audio id="typeSound" src="audio/type-kpr.wav" preload="auto"></audio>
+    <audio id="ambientSound" src="audio/ambient.mp3" preload="auto" loop playsinline></audio>
+
+    <!-- Подключение JavaScript только один раз -->
+    <script src="script.js"></script>
+</body>
+</html>
