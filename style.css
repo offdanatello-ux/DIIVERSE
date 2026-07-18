@@ -5560,3 +5560,54 @@ button:focus-visible {
     }
 }
 
+/* ==========================================================
+   MOBILE V11 — ТОЧЕЧНАЯ НАСТРОЙКА НАВИГАЦИИ
+   Структура, анимации и JavaScript не изменяются.
+========================================================== */
+
+/* После удаления служебной строки заголовку больше не нужен верхний отступ. */
+.hero h2 {
+    margin-top: 0;
+}
+
+@media (max-width: 768px) {
+    .navigation {
+        right: 12px;
+        left: 12px;
+        gap: clamp(15px, 4.8vw, 25px);
+    }
+
+    .navigation a {
+        min-height: 48px;
+        padding: 14px 0;
+
+        color: rgba(255, 255, 255, 0.8);
+
+        font-size: clamp(10px, 2.9vw, 12px);
+        font-weight: 500;
+        letter-spacing: 0.9px;
+    }
+
+    /* Русские слова длиннее: уменьшаем только заголовок страницы «Обо мне». */
+    .about-hero h1 {
+        font-size: clamp(44px, 14vw, 72px);
+        line-height: 0.86;
+        letter-spacing: -3px;
+        overflow-wrap: normal;
+    }
+}
+
+/* На совсем узких экранах сохраняем расстояние, но не допускаем переноса. */
+@media (max-width: 360px) {
+    .navigation {
+        right: 8px;
+        left: 8px;
+        gap: 12px;
+    }
+
+    .navigation a {
+        font-size: 10px;
+        letter-spacing: 0.55px;
+    }
+}
+
