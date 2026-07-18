@@ -5382,3 +5382,143 @@ button:focus-visible {
     }
 }
 
+
+
+/* ==========================================================
+   MOBILE V9 — ТОЧЕЧНЫЕ ИСПРАВЛЕНИЯ БЕЗ ПЕРЕСТРОЙКИ САЙТА
+========================================================== */
+
+/* Красное свечение первого экрана: насыщеннее, как в других блоках. */
+.hero::before {
+    background: radial-gradient(
+        circle,
+        rgba(240, 68, 53, 0.42) 0%,
+        rgba(240, 68, 53, 0.24) 34%,
+        rgba(240, 68, 53, 0.08) 54%,
+        transparent 72%
+    );
+    filter: blur(20px);
+}
+
+/* На странице услуг стрелки не являются кнопками — убираем их. */
+.service-item__arrow {
+    display: none !important;
+}
+
+.service-item {
+    grid-template-columns: 75px minmax(0, 1fr);
+}
+
+/* В системной панели красными остаются только названия полей. */
+.system-panel__detail span {
+    color: #f04435;
+}
+
+.system-panel__detail strong,
+.system-panel__detail strong .scroll-type-word,
+.system-panel__detail strong .scroll-type-char {
+    color: #f3f3f3 !important;
+}
+
+.system-panel__detail strong {
+    font-size: clamp(17px, 1.45vw, 23px);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    /* Убираем короткую декоративную линию над мобильным меню. */
+    .navigation {
+        top: 78px;
+        right: 14px;
+        left: 14px;
+        padding-top: 0;
+        justify-content: center;
+        gap: clamp(18px, 5vw, 32px);
+        border-top: 0;
+    }
+
+    .navigation a {
+        min-height: 46px;
+        padding: 13px 0;
+        font-size: clamp(10px, 2.75vw, 12px);
+        line-height: 1;
+        letter-spacing: 0.85px;
+        white-space: nowrap;
+    }
+
+    /* Чуть сильнее выделяем основной текст первого экрана. */
+    .hero__description {
+        max-width: 560px;
+        margin-top: 30px;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 18px;
+        line-height: 1.56;
+    }
+
+    /* Полноценная белая CTA-кнопка, стилистически как кнопка прелоадера. */
+    .explore-button,
+    .explore-button:hover,
+    .explore-button:focus-visible,
+    .explore-button:active {
+        width: 100%;
+        min-height: 74px;
+        margin-top: 36px;
+        padding: 0 24px;
+        color: #050505;
+        background: #f3f3f3;
+        border: 1px solid #f3f3f3;
+        font-size: 13px;
+        letter-spacing: 2.2px;
+        transform: none;
+    }
+
+    .explore-button span,
+    .explore-button:hover span,
+    .explore-button:active span {
+        color: #050505;
+        font-size: 27px;
+        transform: none;
+    }
+
+    .service-item {
+        grid-template-columns: 52px minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .system-panel__detail span {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .system-panel__detail strong {
+        font-size: 18px;
+        line-height: 1.45;
+    }
+}
+
+@media (max-width: 420px) {
+    .navigation {
+        right: 10px;
+        left: 10px;
+        gap: clamp(12px, 4vw, 20px);
+    }
+
+    .navigation a {
+        font-size: 10px;
+        letter-spacing: 0.55px;
+    }
+
+    .hero__description {
+        font-size: 17px;
+    }
+
+    .explore-button,
+    .explore-button:hover,
+    .explore-button:focus-visible,
+    .explore-button:active {
+        min-height: 70px;
+        padding: 0 20px;
+        font-size: 12px;
+        letter-spacing: 1.9px;
+    }
+}

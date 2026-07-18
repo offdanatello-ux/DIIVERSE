@@ -448,33 +448,106 @@ function armAmbientOnFirstInteraction() {
     );
 }
 
-window.addEventListener("pagehide", () => {
-    saveAmbientTime();
-    pauseAmbient();
-});
+let ambientWasPlayingBeforeBackground = false;
 
-window.addEventListener("pageshow", () => {
-    if (!siteStarted || !soundEnabled || !ambientSound) return;
-
-    resumeAmbient(500);
-    armAmbientOnFirstInteraction();
-});
-
-document.addEventListener("visibilitychange", () => {
+function stopAmbientForBackground() {
     if (!ambientSound) return;
 
+    ambientWasPlayingBeforeBackground =
+        ambientWasPlayingBeforeBackground ||
+        (soundEnabled && !ambientSound.paused);
+
+    saveAmbientTime();
+
+    if (ambientFadeFrame !== null) {
+        cancelAnimationFrame(ambientFadeFrame);
+        ambientFadeFrame = null;
+    }
+
     /*
-     * На телефоне скрытая вкладка означает, что пользователь
-     * свернул браузер, заблокировал экран или открыл другое приложение.
+     * pause() останавливает поток, muted дополнительно гарантирует,
+     * что iOS Safari не продолжит звук после сворачивания приложения.
      */
-    if (document.hidden) {
-        pauseAmbient();
+    ambientSound.pause();
+    ambientSound.muted = true;
+}
+
+async function restoreAmbientAfterBackground() {
+    if (
+        !ambientSound ||
+        !ambientWasPlayingBeforeBackground ||
+        !siteStarted ||
+        !soundEnabled ||
+        document.visibilityState !== "visible"
+    ) {
         return;
     }
 
-    if (siteStarted && soundEnabled) {
-        resumeAmbient(500);
-        armAmbientOnFirstInteraction();
+    ambientWasPlayingBeforeBackground = false;
+    ambientSound.muted = false;
+
+    const started = await resumeAmbient(420);
+    if (!started) armAmbientOnFirstInteraction();
+}
+
+function resetNavigationAfterHistoryReturn() {
+    navigationTransitionActive = false;
+
+    navigationLinks.forEach((link) => {
+        link.classList.remove("is-animating");
+    });
+
+    if (pageTransition) {
+        pageTransition.classList.remove(
+            "is-active",
+            "is-closing",
+            "is-loading"
+        );
+        pageTransition.setAttribute("aria-hidden", "true");
+    }
+
+    document.body.classList.remove("transition-lock");
+
+    if (sessionStorage.getItem("diiverseEntered") === "true") {
+        preloader?.classList.add("hidden");
+        siteContent?.classList.add("visible");
+        document.body.style.overflow = "auto";
+        siteStarted = true;
+        showHeroTitleImmediately();
+        showScrollTypingImmediately();
+    }
+}
+
+window.addEventListener("pagehide", stopAmbientForBackground, {
+    capture: true
+});
+
+window.addEventListener("blur", stopAmbientForBackground, {
+    capture: true
+});
+
+document.addEventListener("freeze", stopAmbientForBackground, {
+    capture: true
+});
+
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") {
+        stopAmbientForBackground();
+        return;
+    }
+
+    restoreAmbientAfterBackground();
+}, { capture: true });
+
+window.addEventListener("pageshow", () => {
+    resetNavigationAfterHistoryReturn();
+    restoreAmbientAfterBackground();
+});
+
+window.addEventListener("focus", () => {
+    if (document.visibilityState === "visible") {
+        resetNavigationAfterHistoryReturn();
+        restoreAmbientAfterBackground();
     }
 });
 
