@@ -60,6 +60,9 @@ let ambientStartPromise = null;
 let ambientResumeArmed = false;
 let ambientResumeHandler = null;
 let navigationTransitionActive = false;
+let typingAudioContext = null;
+let typingSoundBuffer = null;
+let typingSoundLoading = false;
 
 const AMBIENT_TARGET_VOLUME = 0.04;
 const audioStopTimers = new WeakMap();
@@ -445,7 +448,10 @@ function armAmbientOnFirstInteraction() {
     );
 }
 
-window.addEventListener("pagehide", saveAmbientTime);
+window.addEventListener("pagehide", () => {
+    saveAmbientTime();
+    pauseAmbient();
+});
 
 window.addEventListener("pageshow", () => {
     if (!siteStarted || !soundEnabled || !ambientSound) return;
@@ -457,6 +463,10 @@ window.addEventListener("pageshow", () => {
 document.addEventListener("visibilitychange", () => {
     if (!ambientSound) return;
 
+    /*
+     * На телефоне скрытая вкладка означает, что пользователь
+     * свернул браузер, заблокировал экран или открыл другое приложение.
+     */
     if (document.hidden) {
         pauseAmbient();
         return;
@@ -466,10 +476,6 @@ document.addEventListener("visibilitychange", () => {
         resumeAmbient(500);
         armAmbientOnFirstInteraction();
     }
-});
-
-window.addEventListener("pagehide", () => {
-    pauseAmbient();
 });
 
 
@@ -715,27 +721,197 @@ function wait(milliseconds) {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
+function getTypingAudioContext() {
+    if (typingAudioContext) return typingAudioContext;
+
+    const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return null;
+
+    typingAudioContext = new AudioContextClass();
+    return typingAudioContext;
+}
+
+async function loadTypingSoundBuffer() {
+    if (typingSoundBuffer || typingSoundLoading) return;
+
+    const context = getTypingAudioContext();
+    if (!context) return;
+
+    typingSoundLoading = true;
+
+    try {
+        const response = await fetch("audio/type-kpr.wav?v=4", {
+            cache: "no-store"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        typingSoundBuffer = await context.decodeAudioData(arrayBuffer.slice(0));
+    } catch (error) {
+        console.warn(
+            "Файл type-kpr.wav не загрузился. Используется встроенный звук:",
+            error
+        );
+        typingSoundBuffer = null;
+    } finally {
+        typingSoundLoading = false;
+    }
+}
+
+function playSyntheticTypingSound(volume = 0.28) {
+    if (!soundEnabled) return;
+
+    const context = getTypingAudioContext();
+    if (!context) return;
+
+    const play = () => {
+        const now = context.currentTime;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+
+        const startFrequency = 1250 + Math.random() * 650;
+        const peakVolume = Math.max(
+            0.07,
+            Math.min(0.2, volume * 0.48)
+        );
+
+        oscillator.type = "square";
+        oscillator.frequency.setValueAtTime(startFrequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(
+            420,
+            now + 0.055
+        );
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(
+            peakVolume,
+            now + 0.002
+        );
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.06
+        );
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+
+        oscillator.start(now);
+        oscillator.stop(now + 0.065);
+    };
+
+    if (context.state === "suspended") {
+        context.resume().then(play).catch(() => {});
+        return;
+    }
+
+    play();
+}
+
 function playTypingSound(volume = 0.28) {
-    const randomPitch = 0.985 + Math.random() * 0.03;
-    playOneShot(typeSound, volume, randomPitch);
+    if (!soundEnabled) return;
+
+    const context = getTypingAudioContext();
+    if (!context) return;
+
+    const play = () => {
+        if (!typingSoundBuffer) {
+            playSyntheticTypingSound(volume);
+            return;
+        }
+
+        const source = context.createBufferSource();
+        const gain = context.createGain();
+
+        source.buffer = typingSoundBuffer;
+        source.playbackRate.value = 0.97 + Math.random() * 0.06;
+        gain.gain.value = Math.max(0, Math.min(volume, 1));
+
+        source.connect(gain);
+        gain.connect(context.destination);
+        source.start(0);
+    };
+
+    if (context.state === "suspended") {
+        context.resume().then(play).catch(() => {
+            playSyntheticTypingSound(volume);
+        });
+        return;
+    }
+
+    play();
 }
 
 function unlockTypingSound() {
-    if (!typeSound) return;
+    const context = getTypingAudioContext();
+    if (!context) return;
 
-    const primer = typeSound.cloneNode(true);
-    primer.volume = 0.001;
+    const unlock = () => {
+        /*
+         * Короткий почти неслышный импульс запускается прямо
+         * внутри клика/касания и разблокирует Web Audio.
+         */
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
 
-    primer.play()
-        .then(() => {
-            primer.pause();
-            primer.currentTime = 0;
-            primer.remove();
-        })
-        .catch(() => {
-            primer.remove();
-        });
+        oscillator.type = "square";
+        oscillator.frequency.value = 700;
+        gain.gain.setValueAtTime(0.0001, now);
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.02);
+
+        loadTypingSoundBuffer();
+    };
+
+    if (context.state === "suspended") {
+        context.resume().then(unlock).catch(() => {});
+    } else {
+        unlock();
+    }
 }
+
+/*
+ * Нужен для случаев, когда прелоадер был пропущен
+ * после возврата с внутренней страницы.
+ */
+const typingUnlockEvents = [
+    "pointerdown",
+    "touchstart",
+    "click",
+    "keydown",
+    "wheel"
+];
+
+function unlockTypingFromFirstInteraction() {
+    unlockTypingSound();
+
+    typingUnlockEvents.forEach((eventName) => {
+        document.removeEventListener(
+            eventName,
+            unlockTypingFromFirstInteraction,
+            true
+        );
+    });
+}
+
+typingUnlockEvents.forEach((eventName) => {
+    document.addEventListener(
+        eventName,
+        unlockTypingFromFirstInteraction,
+        {
+            capture: true,
+            passive: true
+        }
+    );
+});
 
 async function typeHeroTitle() {
     if (!heroTitle || heroTyped) return;
@@ -1317,26 +1493,3 @@ versePreviewImage?.addEventListener("error", () => {
         versePreviewState.textContent = "ИЗОБРАЖЕНИЕ НЕ НАЙДЕНО";
     }
 });
-
-
-/* =================================
-   15. МОБИЛЬНАЯ КНОПКА WHATSAPP
-================================= */
-
-const mobileWhatsapp = document.getElementById("mobileWhatsapp");
-
-function updateMobileWhatsapp() {
-    if (!mobileWhatsapp) return;
-
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    const showAfterHero = window.scrollY > window.innerHeight * 0.72;
-
-    mobileWhatsapp.classList.toggle(
-        "is-visible",
-        isMobile && showAfterHero
-    );
-}
-
-window.addEventListener("scroll", updateMobileWhatsapp, { passive: true });
-window.addEventListener("resize", updateMobileWhatsapp);
-updateMobileWhatsapp();

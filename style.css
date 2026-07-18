@@ -5231,17 +5231,14 @@ button:focus-visible {
     }
 }
 
-
 /* ==========================================================
-   MOBILE-FIRST FINAL OVERRIDES
+   MOBILE POLISH — БЕЗ ИЗМЕНЕНИЯ СТРУКТУРЫ САЙТА
+   Этот блок намеренно находится в самом конце файла,
+   чтобы аккуратно перебить старые мобильные значения.
 ========================================================== */
 
-.verse-row__mobile-preview,
-.mobile-whatsapp {
-    display: none;
-}
-
 @media (max-width: 768px) {
+    /* Первый экран: больше не прижимаем контент к самому низу. */
     .hero {
         min-height: 100svh;
         padding: 154px 20px 34px;
@@ -5251,27 +5248,37 @@ button:focus-visible {
     .hero__content {
         width: 100%;
         max-width: none;
-        margin-top: 18px;
+        margin-top: 42px;
+    }
+
+    /* Шапка и меню остаются такими же по конструкции, только читаемее. */
+    .header {
+        padding: 20px;
+    }
+
+    .logo {
+        font-size: 10px;
+        letter-spacing: 3px;
     }
 
     .navigation {
         top: 69px;
         right: 16px;
         left: 16px;
-        padding: 16px 0 4px;
+        padding-top: 16px;
         justify-content: space-between;
-        gap: 18px;
+        gap: 16px;
     }
 
     .navigation a {
-        min-height: 40px;
-        padding: 12px 0;
+        min-height: 42px;
+        padding: 13px 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         font-size: 10px;
         line-height: 1;
-        letter-spacing: 1px;
+        letter-spacing: 0.85px;
         white-space: nowrap;
     }
 
@@ -5279,7 +5286,7 @@ button:focus-visible {
         min-height: 44px;
         padding: 11px 13px;
         font-size: 9px;
-        letter-spacing: 1.4px;
+        letter-spacing: 1.35px;
     }
 
     .hero__code {
@@ -5290,21 +5297,22 @@ button:focus-visible {
 
     .hero h2 {
         margin-top: 20px;
-        font-size: clamp(43px, 12.2vw, 68px);
-        line-height: 0.88;
+        font-size: clamp(42px, 11.8vw, 66px);
+        line-height: 0.89;
         letter-spacing: -3px;
     }
 
     .hero__description {
         max-width: 520px;
-        margin-top: 28px;
+        margin-top: 30px;
         font-size: 16px;
-        line-height: 1.55;
+        line-height: 1.58;
     }
 
     .explore-button {
-        min-height: 70px;
-        margin-top: 32px;
+        width: 100%;
+        min-height: 72px;
+        margin-top: 34px;
         padding: 22px 18px;
         font-size: 12px;
         line-height: 1;
@@ -5316,177 +5324,36 @@ button:focus-visible {
     }
 
     .hero__bottom {
-        margin-top: 48px;
-        font-size: 8px;
-        letter-spacing: 1.6px;
-    }
-
-    .verses {
-        padding-right: 18px;
-        padding-left: 18px;
-    }
-
-    .verses__layout {
-        display: block;
-    }
-
-    .verse-preview {
-        display: none;
-    }
-
-    .verse-row {
-        min-height: 0;
-        padding: 26px 0 30px;
-        display: grid;
-        grid-template-columns: 42px minmax(0, 1fr);
-        gap: 10px 14px;
-    }
-
-    .verse-row__number {
-        padding-top: 5px;
-        font-size: 9px;
-    }
-
-    .verse-row__title h2 {
-        font-size: clamp(34px, 10vw, 52px);
-        line-height: 0.92;
-        letter-spacing: -2px;
-    }
-
-    .verse-row__title p {
-        margin-top: 10px;
-        font-size: 9px;
-        letter-spacing: 1.4px;
-    }
-
-    .verse-row__mobile-preview {
-        position: relative;
-        grid-column: 1 / -1;
-        width: 100%;
-        aspect-ratio: 4 / 3;
-        margin-top: 12px;
-        display: block;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: #0a0a0a;
-    }
-
-    .verse-row__mobile-preview img {
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover;
-    }
-
-    .verse-row__mobile-preview::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(transparent 48%, rgba(0, 0, 0, 0.84));
-        pointer-events: none;
-    }
-
-    .verse-row__mobile-preview > span {
-        position: absolute;
-        right: 16px;
-        bottom: 16px;
-        left: 16px;
-        z-index: 2;
-        font-family: var(--font-system);
-        font-size: 10px;
-        letter-spacing: 1.8px;
-    }
-
-    .verse-row__mobile-preview--locked {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background:
-            repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255,255,255,.018) 5px),
-            #080808;
-    }
-
-    .verse-row__mobile-preview--locked::after {
-        display: none;
-    }
-
-    .verse-row__mobile-preview--locked > span {
-        position: static;
-        color: rgba(255, 255, 255, 0.22);
-        text-align: center;
-    }
-
-    .verse-row__status {
-        grid-column: 2;
-        font-size: 9px;
-    }
-
-    .mobile-whatsapp {
-        position: fixed;
-        right: 14px;
-        bottom: calc(14px + env(safe-area-inset-bottom));
-        left: 14px;
-        z-index: 700;
-        min-height: 58px;
-        padding: 12px 17px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        margin-top: 50px;
         gap: 18px;
-        color: #050505;
-        background: #f3f3f3;
-        border: 1px solid rgba(255,255,255,.25);
-        font-family: var(--font-system);
-        text-decoration: none;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(90px);
-        transition: opacity .3s ease, transform .35s cubic-bezier(.22,1,.36,1), visibility .3s ease;
-        box-shadow: 0 18px 55px rgba(0,0,0,.38);
-    }
-
-    .mobile-whatsapp span {
         font-size: 8px;
-        letter-spacing: 1.8px;
-        opacity: .55;
-    }
-
-    .mobile-whatsapp strong {
-        font-size: 11px;
-        letter-spacing: 1.4px;
-        font-weight: 500;
-    }
-
-    .mobile-whatsapp.is-visible {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    body {
-        padding-bottom: 78px;
+        letter-spacing: 1.55px;
     }
 }
 
 @media (max-width: 420px) {
     .hero {
-        padding-top: 146px;
+        padding-top: 148px;
+    }
+
+    .hero__content {
+        margin-top: 34px;
     }
 
     .navigation {
         right: 10px;
         left: 10px;
-        gap: 11px;
+        gap: 10px;
     }
 
     .navigation a {
         font-size: 9px;
-        letter-spacing: .55px;
+        letter-spacing: 0.45px;
     }
 
     .hero h2 {
-        font-size: clamp(39px, 11.6vw, 56px);
-        line-height: .9;
+        font-size: clamp(39px, 11.3vw, 54px);
+        line-height: 0.91;
         letter-spacing: -2.4px;
     }
 
@@ -5495,7 +5362,23 @@ button:focus-visible {
     }
 
     .explore-button {
-        min-height: 66px;
+        min-height: 68px;
         font-size: 11px;
+        letter-spacing: 1.9px;
     }
 }
+
+/* На сенсорных экранах не оставляем «залипший» hover у большой кнопки. */
+@media (hover: none) and (pointer: coarse) {
+    .explore-button:hover {
+        padding-right: 18px;
+        padding-left: 18px;
+        color: #f3f3f3;
+        background: transparent;
+    }
+
+    .explore-button:hover span {
+        transform: none;
+    }
+}
+
