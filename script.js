@@ -490,7 +490,7 @@ async function restoreAmbientAfterBackground() {
     if (!started) armAmbientOnFirstInteraction();
 }
 
-function resetNavigationAfterHistoryReturn() {
+function resetNavigationAfterHistoryReturn(restoreVisiblePage = false) {
     navigationTransitionActive = false;
 
     navigationLinks.forEach((link) => {
@@ -508,7 +508,15 @@ function resetNavigationAfterHistoryReturn() {
 
     document.body.classList.remove("transition-lock");
 
-    if (sessionStorage.getItem("diiverseEntered") === "true") {
+    /*
+     * Важно: показываем сайт без прелоадера только при настоящем
+     * возврате кнопкой «Назад». Обычная перезагрузка должна полностью
+     * проигрывать прелоадер и затем анимацию главного заголовка.
+     */
+    if (
+        restoreVisiblePage &&
+        sessionStorage.getItem("diiverseEntered") === "true"
+    ) {
         preloader?.classList.add("hidden");
         siteContent?.classList.add("visible");
         document.body.style.overflow = "auto";
@@ -516,6 +524,16 @@ function resetNavigationAfterHistoryReturn() {
         showHeroTitleImmediately();
         showScrollTypingImmediately();
     }
+}
+
+function isHistoryReturn(pageShowEvent) {
+    const navigationEntry =
+        performance.getEntriesByType("navigation")[0];
+
+    return Boolean(
+        pageShowEvent?.persisted ||
+        navigationEntry?.type === "back_forward"
+    );
 }
 
 window.addEventListener("pagehide", stopAmbientForBackground, {
@@ -539,16 +557,24 @@ document.addEventListener("visibilitychange", () => {
     restoreAmbientAfterBackground();
 }, { capture: true });
 
-window.addEventListener("pageshow", () => {
-    resetNavigationAfterHistoryReturn();
+window.addEventListener("pageshow", (event) => {
+    resetNavigationAfterHistoryReturn(isHistoryReturn(event));
     restoreAmbientAfterBackground();
 });
 
 window.addEventListener("focus", () => {
-    if (document.visibilityState === "visible") {
-        resetNavigationAfterHistoryReturn();
-        restoreAmbientAfterBackground();
+    if (document.visibilityState !== "visible") return;
+
+    /*
+     * Focus может сработать во время прелоадера. Поэтому здесь только
+     * снимаем зависший экран перехода с уже открытого сайта, но никогда
+     * не скрываем сам прелоадер.
+     */
+    if (siteStarted) {
+        resetNavigationAfterHistoryReturn(false);
     }
+
+    restoreAmbientAfterBackground();
 });
 
 
